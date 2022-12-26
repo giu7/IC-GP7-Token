@@ -7,7 +7,7 @@ function Balance() {
   const [inputValue, setInputValue] = useState('');
   const [balanceResult, setBalanceResult] = useState('');
   const [symbol, setSymbol] = useState('');
-  const [isHidden, setHidden] = useState('true');
+  const [isHidden, setHidden] = useState(true);
 
   async function handleClick() {
     console.log(inputValue);
