@@ -1,15 +1,17 @@
 import Debug "mo:base/Debug";
 import Principal "mo:base/Principal";
 import HashMap "mo:base/HashMap";
+import Iter "mo:base/Iter";
 
 actor Token {
     
-    var owner: Principal = Principal.fromText("5egea-xer2k-yvk5m-brzr5-zqwpx-xwwtf-rwcvf-gwwwg-yiljp-hh7lr-3qe");
-    var totalSupply: Nat = 1000000000;
-    var symbol: Text = "GP7";
+    let owner: Principal = Principal.fromText("5egea-xer2k-yvk5m-brzr5-zqwpx-xwwtf-rwcvf-gwwwg-yiljp-hh7lr-3qe");
+    let totalSupply: Nat = 1000000000;
+    let symbol: Text = "GP7";
 
-    var balances = HashMap.HashMap<Principal, Nat>(1, Principal.equal, Principal.hash);
-    balances.put(owner, totalSupply);
+    private stable var balanceEntries: [(Principal, Nat)] = [];
+
+    private var balances = HashMap.HashMap<Principal, Nat>(1, Principal.equal, Principal.hash);
 
     public query func balanceOf(who: Principal): async Nat {
         let balance : Nat = switch (balances.get(who)) {
@@ -52,6 +54,19 @@ actor Token {
 
     public func getCanisterId() : async Principal { 
        return Principal.fromActor(Token);
+    };
+
+    system func preupgrade() {
+        balanceEntries := Iter.toArray(balances.entries());
+    };
+
+    system func postupgrade() {
+        balances := HashMap.fromIter<Principal, Nat>(balanceEntries.vals(), 1, Principal.equal, Principal.hash);
+
+        //only first inizialization
+        if (balances.size() < 1) {
+            balances.put(owner, totalSupply);
+        }
     };
 
 }
