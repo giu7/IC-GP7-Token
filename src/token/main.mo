@@ -50,4 +50,8 @@ actor Token {
         }
     };
 
+    public func getCanisterId() : async Principal { 
+       return Principal.fromActor(Token);
+    };
+
 }

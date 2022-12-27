@@ -1,5 +1,6 @@
 service : {
   balanceOf: (principal) -> (nat) query;
+  getCanisterId: () -> (principal);
   getSymbol: () -> (text) query;
   payOut: () -> (text);
   transfer: (principal, nat) -> (text);
