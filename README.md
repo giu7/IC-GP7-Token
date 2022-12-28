@@ -1,3 +1,55 @@
+# GP7 Token
+
+This project is an education example of a simple Token (called GP7) realized on IC Blockchain.
+
+To deploy locally ensure you installed dfx cli, then run
+```
+dfx start --clean
+```
+then open another terminal and run
+```
+dfx deploy
+```
+
+After the deploy, you principal will have 1000000000 GP7 tokens assigned.
+
+You can get your principal running
+```
+dfx identity get-principal
+```
+
+At this point you can start playing with the faucet.
+
+The first thing you have to do is to transfer an amount of GP7 from your principal wallet to the faucet canister.
+You can do this with
+```
+dfx canister call token transfer "(principal \"$( \dfx canister id token )\", 500_000_000)"
+```
+
+Now if you try to click "Gimme Gimme", 10000 GP7 will be moved from the faucet canister to the anonymous user who's running in the frontend (since you are not logged in).
+
+You can check the balance of your principal, the faucet canister, and the anoymous user.
+
+You can also try to transfer GP7s between these wallets.
+
+## Authentication with Internet Identity
+The DApp is ready to use Dfinity's Internet Identity, but to effectively use this you have to deploy the DApp on live env.
+
+To enable the authentication, uncomment the lines in
+- index.jsx
+- Faucet.jsx
+
+## TODOs
+These are some errors in the code, I just wanted to learn basis of motoko language and never thinked to deploy this on live env, so I never worried to do this perfectly
+
+- If you try to run your frontend with `npm run start`, it won't load the css. I don't know why this is happening, probably because I migrated this project from dfinity 0.9.x to 0.12.1 and I missed some configurations.
+- Transfer function is not working with authentication, since I just wanted to learn basis of motoko language and never thinked to deploy this on live env
+- You need to manually move tokens from your principal wallet to the canister, this can be automated for sure
+
+
+# Original README
+This is repository has been created following a course on Udemy, here below you can find the original README
+
 # Check your Balance
 
 1. Find out your principal id:
@@ -27,14 +79,6 @@ dfx canister call token balanceOf "( $OWNER_PUBLIC_KEY )"
 ```
 
 # Charge the Canister
-
-
-1. Single line command
-```
-dfx canister call token transfer "(principal \"$( \dfx canister id token )\", 500_000_000)"
-```
-
-or setting an env variable
 
 1. Check canister ID:
 ```

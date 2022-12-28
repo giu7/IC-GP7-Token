@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { token } from "../../../declarations/token";
+import { AuthClient } from "@dfinity/auth-client"; 
+import { token, canisterId, createActor } from "../../../declarations/token";
 
 function Faucet() {
 
@@ -8,6 +9,20 @@ function Faucet() {
 
   async function handleClick(event) {
     setDisabled(true);
+
+    // UNCOMMENT these lines to enable authenticated payOut -- work only on live env
+    // const authClient = await AuthClient.create();
+    // const identity = await authClient.getIdentity();
+
+    // const authCanister = createActor(canisterId, {
+    //   agentOptions: {
+    //     identity
+    //   }
+    // });
+
+    // const resultText = await authCanister.payOut();
+
+    //COMMENT this line if you want to enable authentication -- work onli on live env
     const resultText = await token.payOut();
     setButtonText(resultText);
     //setDisabled(false);
