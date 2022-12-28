@@ -1,6 +1,6 @@
 # GP7 Token
 
-This project is an education example of a simple Token (called GP7) realized on IC Blockchain.
+This project is an education example of a simple Token (called GP7) realized on IC Blockchain and UI inspired by classic version of [Curve Finance](https://classic.curve.fi/).
 
 To deploy locally ensure you installed dfx cli, then run
 ```
