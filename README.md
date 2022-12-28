@@ -29,6 +29,13 @@ dfx canister call token balanceOf "( $OWNER_PUBLIC_KEY )"
 # Charge the Canister
 
 
+1. Single line command
+```
+dfx canister call token transfer "(principal \"$( \dfx canister id token )\", 500_000_000)"
+```
+
+or setting an env variable
+
 1. Check canister ID:
 ```
 dfx canister id token
@@ -47,8 +54,6 @@ echo $CANISTER_PUBLIC_KEY
 4. Transfer half a billion tokens to the canister Principal ID:
 ```
 dfx canister call token transfer "($CANISTER_PUBLIC_KEY, 500_000_000)"
-or without setting a variable (replace just your canister id)
-dfx canister call token transfer "(principal \"rkp4c-7iaaa-aaaaa-aaaca-cai\", 500_000_000)"
 ```
 
 # Deploy the Project to the Live IC Network

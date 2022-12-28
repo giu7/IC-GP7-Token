@@ -10,8 +10,11 @@ actor Token {
     let symbol: Text = "GP7";
 
     private stable var balanceEntries: [(Principal, Nat)] = [];
-
     private var balances = HashMap.HashMap<Principal, Nat>(1, Principal.equal, Principal.hash);
+    //only first inizialization
+    if (balances.size() < 1) {
+        balances.put(owner, totalSupply);
+    };
 
     public query func balanceOf(who: Principal): async Nat {
         let balance : Nat = switch (balances.get(who)) {
@@ -27,7 +30,7 @@ actor Token {
     };
 
     public shared(msg) func payOut(): async Text {
-        Debug.print(debug_show(msg.caller));
+        Debug.print("Paying out principal" # debug_show(msg.caller));
         if (balances.get(msg.caller) == null) {
             let amount = 10000;
             let result = await transfer(msg.caller, amount);
@@ -62,7 +65,6 @@ actor Token {
 
     system func postupgrade() {
         balances := HashMap.fromIter<Principal, Nat>(balanceEntries.vals(), 1, Principal.equal, Principal.hash);
-
         //only first inizialization
         if (balances.size() < 1) {
             balances.put(owner, totalSupply);
